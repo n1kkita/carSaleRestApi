@@ -12,7 +12,7 @@ import java.util.List;
 @Table
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {"id","quantity","price","sales"})
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,4 +43,9 @@ public class Car {
 
     @OneToMany(mappedBy = "car")
     private List< Orders > sales = new ArrayList<>();
+
+    @PrePersist
+    public void init(){
+        quantity++;
+    }
 }
