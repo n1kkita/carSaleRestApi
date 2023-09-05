@@ -30,6 +30,6 @@ public class Salesman {
         MANAGER
     }
     @OneToMany(mappedBy = "salesman")
-    private List<Order> sales = new ArrayList<>();
+    private List< Orders > sales = new ArrayList<>();
 
 }
