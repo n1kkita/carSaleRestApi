@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +13,14 @@ import java.util.List;
 @Table
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"id","quantity","price","sales"})
+@EqualsAndHashCode(exclude = {"id","quantity","sales"})
+@ToString(exclude = {"sales"})
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private Integer quantity;
+    private Integer quantity = 1;
 
     @Column(nullable = false)
     private String mark;
@@ -43,9 +45,4 @@ public class Car {
 
     @OneToMany(mappedBy = "car")
     private List< Orders > sales = new ArrayList<>();
-
-    @PrePersist
-    public void init(){
-        quantity++;
-    }
 }
