@@ -47,21 +47,36 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Car updateById(Long id) {
-        return null;
+    @Transactional
+    public Car updateById(Long id, Double newPrice) {
+        Car car = carRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Car not found"));
+        car.setPrice(newPrice);
+        return car;
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
+        Car car = carRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Car not found"));
 
+        car.setQuantity(car.getQuantity()-1);
+
+        if(car.getQuantity() == 0) {
+            carRepository.deleteById(id);
+            log.info("car " + car + " was delete from db");
+        }
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List< CarDto > getAll() {
         return carRepository.findAllCar();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public CarDto getById(Long id) {
         return carRepository.findCarById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Car not found"));

@@ -16,6 +16,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CarController {
     private final CarService carService;
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Car createCar(@RequestBody CarDto carDto){
+        return carService.save(carDto);
+    }
     @GetMapping
     public List< CarDto > getAllCars(){
         return carService.getAll();
@@ -25,10 +30,14 @@ public class CarController {
         return carService.getById(id);
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Car createCar(@RequestBody CarDto carDto){
-        return carService.save(carDto);
+    @PatchMapping("/{id}")
+    public Car updatePriceCarById(@PathVariable Long id,@RequestParam Double newPrice){
+        return carService.updateById(id,newPrice);
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCarById(@PathVariable Long id){
+        carService.deleteById(id);
+    }
 }
