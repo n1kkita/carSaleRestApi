@@ -1,9 +1,7 @@
 package com.myfirstwebsocketapp.app.entity;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,25 +9,31 @@ import java.util.List;
 @Table
 @Getter
 @Setter
+@Builder
 @EqualsAndHashCode
-public class Salesman {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Seller {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
+    private Integer age;
     @Column(nullable = false)
     private String firstName;
     @Column(nullable = false)
     private String lastName;
     @Column(nullable = false)
-    private Integer numberOfCarsSold;
+    private Integer numberOfCarsSold = 0;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role role = Role.SELLER;
+
     public enum Role{
         SELLER,
         MANAGER
     }
-    @OneToMany(mappedBy = "salesman")
+    @OneToMany(mappedBy = "seller")
     private List< Orders > sales = new ArrayList<>();
 
 }
