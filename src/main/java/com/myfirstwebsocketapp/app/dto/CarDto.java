@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class CarDto {
+    private Long id;
     private String mark;
     private String model;
     private Integer year;

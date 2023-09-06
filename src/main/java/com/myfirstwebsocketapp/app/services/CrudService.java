@@ -6,7 +6,7 @@ public interface CrudService<T, R> {
      T save(R t);
      List<R> getAll();
      R getById(Long id);
-     T updateById(Long id);
+     T updateById(Long id, Double newPrice);
      void deleteById(Long id);
 
 }

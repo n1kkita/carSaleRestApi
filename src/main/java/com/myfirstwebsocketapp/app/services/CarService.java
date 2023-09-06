@@ -16,7 +16,7 @@ public interface CarService extends CrudService<Car, CarDto>{
     CarDto getById(Long id);
 
     @Override
-    Car updateById(Long id);
+    Car updateById(Long id, Double newPrice);
 
     @Override
     void deleteById(Long id);

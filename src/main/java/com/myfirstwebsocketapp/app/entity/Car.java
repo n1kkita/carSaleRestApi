@@ -1,5 +1,6 @@
 package com.myfirstwebsocketapp.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -42,7 +43,7 @@ public class Car {
         FREIGHTER_CAR,
         SPORT_CAR
     }
-
+    @JsonIgnore
     @OneToMany(mappedBy = "car")
     private List< Orders > sales = new ArrayList<>();
 }
