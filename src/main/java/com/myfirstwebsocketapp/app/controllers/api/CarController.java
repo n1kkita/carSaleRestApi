@@ -17,12 +17,12 @@ import java.util.List;
 public class CarController {
     private final CarService carService;
     @GetMapping
-    public List< Car > getAllCars(){
-        return null;
+    public List< CarDto > getAllCars(){
+        return carService.getAll();
     }
     @GetMapping("/{id}")
-    public Car getCarById(@PathVariable Long id){
-        return null;
+    public CarDto getCarById(@PathVariable Long id){
+        return carService.getById(id);
     }
 
     @PostMapping
