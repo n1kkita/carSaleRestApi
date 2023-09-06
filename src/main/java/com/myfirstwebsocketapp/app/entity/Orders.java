@@ -27,7 +27,7 @@ public class Orders {
             foreignKey = @ForeignKey(name = "order_salesman_fkey"),
             nullable = false
     )
-    private Salesman salesman;
+    private Seller seller;
 
     @ManyToOne(optional = false)
     @JoinColumn(

@@ -3,6 +3,7 @@ package com.myfirstwebsocketapp.app.services.imp;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myfirstwebsocketapp.app.dto.CarDto;
 import com.myfirstwebsocketapp.app.entity.Car;
+import com.myfirstwebsocketapp.app.exceptions.CarNotFoundException;
 import com.myfirstwebsocketapp.app.repositories.CarRepository;
 import com.myfirstwebsocketapp.app.services.CarService;
 import jakarta.persistence.EntityNotFoundException;
@@ -50,7 +51,7 @@ public class CarServiceImpl implements CarService {
     @Transactional
     public Car updateById(Long id, Double newPrice) {
         Car car = carRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Car not found"));
+                .orElseThrow(()-> new CarNotFoundException("Car not found"));
         car.setPrice(newPrice);
         return car;
     }
@@ -59,7 +60,7 @@ public class CarServiceImpl implements CarService {
     @Transactional
     public void deleteById(Long id) {
         Car car = carRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Car not found"));
+                .orElseThrow(()-> new CarNotFoundException("Car not found"));
 
         car.setQuantity(car.getQuantity()-1);
 
@@ -79,6 +80,6 @@ public class CarServiceImpl implements CarService {
     @Transactional(readOnly = true)
     public CarDto getById(Long id) {
         return carRepository.findCarById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Car not found"));
+                .orElseThrow(()-> new CarNotFoundException("Car not found"));
     }
 }

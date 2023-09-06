@@ -5,19 +5,6 @@ import com.myfirstwebsocketapp.app.entity.Car;
 
 import java.util.List;
 
-public interface CarService extends CrudService<Car, CarDto>{
-    @Override
-    Car save(CarDto t);
-
-    @Override
-    List< CarDto > getAll();
-
-    @Override
-    CarDto getById(Long id);
-
-    @Override
+public interface CarService extends BasicService<Car, CarDto> {
     Car updateById(Long id, Double newPrice);
-
-    @Override
-    void deleteById(Long id);
 }
