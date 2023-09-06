@@ -1,10 +1,12 @@
 package com.myfirstwebsocketapp.app.repositories;
 
+import com.myfirstwebsocketapp.app.dto.CarDto;
 import com.myfirstwebsocketapp.app.entity.Car;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -21,4 +23,13 @@ public interface CarRepository extends JpaRepository< Car,Long> {
                                        Double price,
                                        Integer year
         );
+
+        @Query("select new com.myfirstwebsocketapp.app.dto.CarDto(c.mark,c.model,c.year,c.price,c.type) from Car c where c.id=?1"
+        )
+        Optional< CarDto > findCarById(Long id);
+
+        @Query("select new com.myfirstwebsocketapp.app.dto.CarDto(c.mark,c.model,c.year,c.price,c.type) from Car c ")
+        List<CarDto> findAllCar();
+
+
 }

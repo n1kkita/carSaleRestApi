@@ -5,12 +5,14 @@ import com.myfirstwebsocketapp.app.dto.CarDto;
 import com.myfirstwebsocketapp.app.entity.Car;
 import com.myfirstwebsocketapp.app.repositories.CarRepository;
 import com.myfirstwebsocketapp.app.services.CarService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,5 +44,26 @@ public class CarServiceImpl implements CarService {
             log.info("new car " + saveCar + " was saved");
             return carRepository.save(saveCar);
         }
+    }
+
+    @Override
+    public Car updateById(Long id) {
+        return null;
+    }
+
+    @Override
+    public void deleteById(Long id) {
+
+    }
+
+    @Override
+    public List< CarDto > getAll() {
+        return carRepository.findAllCar();
+    }
+
+    @Override
+    public CarDto getById(Long id) {
+        return carRepository.findCarById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Car not found"));
     }
 }
