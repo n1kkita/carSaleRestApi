@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myfirstwebsocketapp.app.dto.CarDto;
 import com.myfirstwebsocketapp.app.entity.Car;
 import com.myfirstwebsocketapp.app.exceptions.CarNotFoundException;
+import com.myfirstwebsocketapp.app.exceptions.MachinesOutOfStockException;
 import com.myfirstwebsocketapp.app.repositories.CarRepository;
 import com.myfirstwebsocketapp.app.services.CarService;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ public class CarServiceImpl implements CarService {
 
         if(carOptional.isPresent()){
             log.info("car " + carOptional.get() +" has already have so change quantity" );
-            carOptional.get().setQuantity(carOptional.get().getQuantity()+1);
+            carOptional.get().setLeftInStock(carOptional.get().getLeftInStock()+1);
             return carOptional.get();
         } else {
             Car saveCar = objectMapper.readValue(carDtoJson, Car.class);
@@ -51,23 +51,22 @@ public class CarServiceImpl implements CarService {
     @Transactional
     public Car updateById(Long id, Double newPrice) {
         Car car = carRepository.findById(id)
-                .orElseThrow(()-> new CarNotFoundException("Car not found"));
+                .orElseThrow(CarNotFoundException :: new);
         car.setPrice(newPrice);
         return car;
     }
 
     @Override
     @Transactional
-    public void deleteById(Long id) {
+    public void deleteById(Long id){
         Car car = carRepository.findById(id)
-                .orElseThrow(()-> new CarNotFoundException("Car not found"));
+                .orElseThrow(CarNotFoundException :: new);
 
-        car.setQuantity(car.getQuantity()-1);
-
-        if(car.getQuantity() == 0) {
-            carRepository.deleteById(id);
-            log.info("car " + car + " was delete from db");
+        if(car.getLeftInStock() == 0) {
+            throw new MachinesOutOfStockException();
         }
+        car.setLeftInStock(car.getLeftInStock() - 1);
+
     }
 
     @Override
@@ -80,6 +79,6 @@ public class CarServiceImpl implements CarService {
     @Transactional(readOnly = true)
     public CarDto getById(Long id) {
         return carRepository.findCarById(id)
-                .orElseThrow(()-> new CarNotFoundException("Car not found"));
+                .orElseThrow(CarNotFoundException :: new);
     }
 }

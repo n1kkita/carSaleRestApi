@@ -1,5 +1,6 @@
 package com.myfirstwebsocketapp.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,7 +34,20 @@ public class Seller {
         SELLER,
         MANAGER
     }
+
+    @JsonIgnoreProperties({"seller"})
     @OneToMany(mappedBy = "seller")
     private List< Orders > sales = new ArrayList<>();
+
+    public Orders saleCar(Car car){
+        numberOfCarsSold++;
+        Orders order = Orders.builder()
+                .car(car)
+                .seller(this)
+                .build();
+        sales.add(order);
+
+        return order;
+    }
 
 }

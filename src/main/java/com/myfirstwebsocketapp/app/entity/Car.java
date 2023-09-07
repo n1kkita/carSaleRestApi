@@ -14,14 +14,14 @@ import java.util.List;
 @Table
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"id","quantity","sales"})
+@EqualsAndHashCode(exclude = {"id","leftInStock","sales"})
 @ToString(exclude = {"sales"})
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private Integer quantity = 1;
+    private Integer leftInStock = 1;
 
     @Column(nullable = false)
     private String mark;
