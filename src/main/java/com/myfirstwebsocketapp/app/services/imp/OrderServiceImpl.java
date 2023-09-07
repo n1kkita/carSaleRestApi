@@ -3,6 +3,7 @@ package com.myfirstwebsocketapp.app.services.imp;
 import com.myfirstwebsocketapp.app.entity.Car;
 import com.myfirstwebsocketapp.app.entity.Orders;
 import com.myfirstwebsocketapp.app.entity.Seller;
+import com.myfirstwebsocketapp.app.exceptions.CarNotFoundException;
 import com.myfirstwebsocketapp.app.repositories.CarRepository;
 import com.myfirstwebsocketapp.app.repositories.OrdersRepository;
 import com.myfirstwebsocketapp.app.services.CarService;
@@ -31,11 +32,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Orders carSaleByIdAndSellerId(Long carId, Long sellerId) {
-        Car saleCar = carRepository.findById(carId).orElseThrow();
+        Car saleCar = carRepository.findById(carId).orElseThrow(CarNotFoundException ::new);
         Seller seller = sellerService.getById(sellerId);
 
         carService.deleteById(saleCar.getId());
-
+        log.info("car " + saleCar + " sold");
         return ordersRepository.save(seller.saleCar(saleCar));
     }
 }
