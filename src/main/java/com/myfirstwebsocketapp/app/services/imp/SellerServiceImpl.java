@@ -32,7 +32,7 @@ public class SellerServiceImpl implements SellerService {
     @Transactional(readOnly = true)
     public Seller getById(Long id) {
         return sellerRepository.findById(id)
-                .orElseThrow(() -> new SellerNotFoundException("Seller not found"));
+                .orElseThrow(SellerNotFoundException :: new);
     }
 
     @Override

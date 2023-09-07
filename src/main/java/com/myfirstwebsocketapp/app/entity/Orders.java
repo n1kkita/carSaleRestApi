@@ -1,9 +1,10 @@
 package com.myfirstwebsocketapp.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -14,13 +15,19 @@ import java.time.LocalDateTime;
 })
 @Getter
 @Setter
+@Builder
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
 public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private LocalDateTime dateOfSale = LocalDateTime.now();
+    private LocalDateTime dateOfSale;
+
+    @JsonIgnoreProperties({"sales"}) // Игнорируем поле sales при выгрузке Seller
     @ManyToOne(optional = false)
     @JoinColumn(
             name = "salesman_id",
@@ -36,5 +43,9 @@ public class Orders {
             nullable = false
     )
     private Car car;
+    @PrePersist
+    public void init(){
+        dateOfSale = LocalDateTime.now();
+    }
 
 }
