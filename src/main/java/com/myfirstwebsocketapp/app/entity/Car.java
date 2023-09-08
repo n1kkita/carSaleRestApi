@@ -1,6 +1,7 @@
 package com.myfirstwebsocketapp.app.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -50,6 +51,7 @@ public class Car {
     private List< Orders > sales = new ArrayList<>();
 
 
+    @JsonIgnoreProperties({"cars","sellers"})
     @ManyToOne
     @JoinColumn(name = "carshowroom_id",
             foreignKey = @ForeignKey(name = "car_shoow_romm_fk")
