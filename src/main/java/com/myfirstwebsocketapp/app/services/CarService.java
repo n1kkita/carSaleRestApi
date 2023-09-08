@@ -5,6 +5,6 @@ import com.myfirstwebsocketapp.app.entity.Car;
 
 import java.util.List;
 
-public interface CarService extends BasicService<Car, CarDto> {
+public interface CarService extends BasicService<Car, CarDto>, DtoService<CarDto>{
     Car updateById(Long id, Double newPrice);
 }

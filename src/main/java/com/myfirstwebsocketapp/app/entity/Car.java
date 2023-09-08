@@ -49,6 +49,7 @@ public class Car {
     @OneToMany(mappedBy = "car")
     private List< Orders > sales = new ArrayList<>();
 
+
     @ManyToOne
     @JoinColumn(name = "carshowroom_id",
             foreignKey = @ForeignKey(name = "car_shoow_romm_fk")

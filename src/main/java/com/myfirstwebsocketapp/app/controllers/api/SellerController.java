@@ -1,5 +1,6 @@
 package com.myfirstwebsocketapp.app.controllers.api;
 
+import com.myfirstwebsocketapp.app.dto.SellerDto;
 import com.myfirstwebsocketapp.app.entity.Seller;
 import com.myfirstwebsocketapp.app.services.SellerService;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +17,8 @@ public class SellerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Seller createSeller(@RequestBody Seller seller){
-        return sellerService.save(seller);
+    public Seller createSeller(@RequestBody SellerDto sellerDto){
+        return sellerService.save(sellerDto);
     }
     @GetMapping
     public List< Seller > getAllSellers(){
