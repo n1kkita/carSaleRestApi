@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table
+@Table(
+        indexes = @Index(name = "carshowroom_car_indx",columnList = "carshowroom_id")
+)
 @Getter
 @Setter
 @EqualsAndHashCode(exclude = {"id","leftInStock","sales"})
@@ -46,4 +48,10 @@ public class Car {
     @JsonIgnore
     @OneToMany(mappedBy = "car")
     private List< Orders > sales = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "carshowroom_id",
+            foreignKey = @ForeignKey(name = "car_shoow_romm_fk")
+    )
+    private CarShowroom carShowroom;
 }

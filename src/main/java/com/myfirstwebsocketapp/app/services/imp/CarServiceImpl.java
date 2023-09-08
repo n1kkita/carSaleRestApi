@@ -29,11 +29,11 @@ public class CarServiceImpl implements CarService {
         String carDtoJson = objectMapper.writeValueAsString(carDto);
 
         Optional< Car > carOptional = carRepository.findCarByCarDto(
-                carDto.getMark(),
-                carDto.getModel(),
-                carDto.getType(),
-                carDto.getPrice(),
-                carDto.getYear()
+                carDto.mark(),
+                carDto.model(),
+                carDto.type(),
+                carDto.price(),
+                carDto.year()
         );
 
         if(carOptional.isPresent()){

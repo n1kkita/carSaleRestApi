@@ -1,18 +1,7 @@
 package com.myfirstwebsocketapp.app.dto;
 
 import com.myfirstwebsocketapp.app.entity.Car;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
-@AllArgsConstructor
-public class CarDto {
-    private Long id;
-    private String mark;
-    private String model;
-    private Integer year;
-    private Double price;
-    private Car.Type type;
+
+public record CarDto(Long id,String mark,String model,Integer year,Double price,Car.Type type) {
 }

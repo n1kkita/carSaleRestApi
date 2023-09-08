@@ -7,7 +7,9 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 @Entity
-@Table
+@Table(
+        indexes = @Index(name = "car_shoow_room_seller_indx",columnList = "carshowroom_id")
+)
 @Getter
 @Setter
 @Builder
@@ -39,6 +41,13 @@ public class Seller {
     @OneToMany(mappedBy = "seller")
     private List< Orders > sales = new ArrayList<>();
 
+
+    @ManyToOne
+    @JoinColumn(name = "carshowroom_id",
+            foreignKey =@ForeignKey(name = "car_shoow_room_seller_fk")
+    )
+    private CarShowroom carShowroom;
+
     public Orders saleCar(Car car){
         numberOfCarsSold++;
         Orders order = Orders.builder()
@@ -49,5 +58,7 @@ public class Seller {
 
         return order;
     }
+
+
 
 }
