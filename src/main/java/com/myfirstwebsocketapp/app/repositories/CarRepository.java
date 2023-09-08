@@ -24,10 +24,5 @@ public interface CarRepository extends JpaRepository< Car,Long> {
                                        Integer year
         );
 
-        @Query("select new com.myfirstwebsocketapp.app.dto.CarDto(c.id,c.mark,c.model,c.year,c.price,c.type, c.carShowroom.id) from Car c where c.id=?1"
-        )
-        Optional< CarDto > findCarById(Long id);
 
-        @Query("select new com.myfirstwebsocketapp.app.dto.CarDto(c.id,c.mark,c.model,c.year,c.price,c.type,c.carShowroom.id) from Car c ")
-        List<CarDto> findAllCar();
 }
