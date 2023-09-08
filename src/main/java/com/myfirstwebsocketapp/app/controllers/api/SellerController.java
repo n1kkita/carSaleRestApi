@@ -16,7 +16,7 @@ public class SellerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Seller createCar(@RequestBody Seller seller){
+    public Seller createSeller(@RequestBody Seller seller){
         return sellerService.save(seller);
     }
     @GetMapping
