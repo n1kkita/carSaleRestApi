@@ -31,7 +31,7 @@ public class CarController {
     }
 
     @PatchMapping("/{id}")
-    public Car updatePriceCarById(@PathVariable Long id,@RequestParam Double newPrice){
+    public CarDto updatePriceCarById(@PathVariable Long id,@RequestParam Double newPrice){
         return carService.updateById(id,newPrice);
     }
 

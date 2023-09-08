@@ -23,27 +23,26 @@ public class SellerServiceImpl implements SellerService {
     @Override
     @Transactional
     public Seller save(SellerDto sellerDto) {
-        return sellerRepository.save(
-                 Seller
-                .builder()
-                .carShowroom(carShowroomService.getById(sellerDto.carShowroomId()))
-                .firstName(sellerDto.firstName())
-                .lastName(sellerDto.lastName())
-                .age(sellerDto.age())
-                .role(sellerDto.role())
-                .build());
+        return sellerRepository.save(SellerDto.replaceToSellerBySellerDto(
+                sellerDto,
+                carShowroomService.getById(sellerDto.carShowroomDto().id()))
+        );
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List< Seller > getAll() {
-        return sellerRepository.findAll();
+    public List< SellerDto > getAll() {
+        return sellerRepository.findAll()
+                .stream()
+                .map(SellerDto :: replaceToDtoBySeller)
+                .toList();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Seller getById(Long id) {
+    public SellerDto getById(Long id) {
         return sellerRepository.findById(id)
+                .map(SellerDto::replaceToDtoBySeller)
                 .orElseThrow(SellerNotFoundException :: new);
     }
 
@@ -55,12 +54,15 @@ public class SellerServiceImpl implements SellerService {
 
     @Override
     @Transactional
-    public Seller updateById(Long id, String role, Integer age) {
-        Seller seller = getById(id);
+    public SellerDto updateById(Long id, String role, Integer age) {
 
-        seller.setAge(age);
-        seller.setRole(Seller.Role.valueOf(role));
+         Seller updateSeller = sellerRepository.findById(id)
+                .map(seller -> {
+                    seller.setAge(age);
+                    seller.setRole(Seller.Role.valueOf(role));
+                    return seller;
+                }).orElseThrow(SellerNotFoundException::new);
 
-        return seller;
+         return SellerDto.replaceToDtoBySeller(updateSeller);
     }
 }

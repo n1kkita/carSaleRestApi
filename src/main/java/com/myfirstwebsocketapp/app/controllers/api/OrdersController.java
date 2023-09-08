@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class OrdersController {
     private final OrderService orderService;
     @GetMapping("/{id}")
-    public Orders getCarById(@PathVariable Long id){
+    public Orders getOrderById(@PathVariable Long id){
         return orderService.getById(id);
     }
     @PostMapping("/saleCar/{carId}/{sellerId}")

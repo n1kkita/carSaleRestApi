@@ -21,15 +21,15 @@ public class SellerController {
         return sellerService.save(sellerDto);
     }
     @GetMapping
-    public List< Seller > getAllSellers(){
+    public List< SellerDto > getAllSellers(){
         return sellerService.getAll();
     }
     @GetMapping("/{id}")
-    public Seller getSellerById(@PathVariable Long id){
+    public SellerDto getSellerById(@PathVariable Long id){
         return sellerService.getById(id);
     }
     @PatchMapping("/{id}")
-    public Seller updatePriceCarById(@PathVariable Long id,
+    public SellerDto updatePriceCarById(@PathVariable Long id,
                                   @RequestParam String role,
                                   @RequestParam Integer age){
 
