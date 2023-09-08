@@ -36,6 +36,7 @@ public class Orders {
     )
     private Seller seller;
 
+    @JsonIgnoreProperties({"carShowroom"})
     @ManyToOne(optional = false)
     @JoinColumn(
             name = "car_id",

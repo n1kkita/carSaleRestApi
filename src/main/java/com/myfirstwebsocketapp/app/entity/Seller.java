@@ -27,7 +27,7 @@ public class Seller {
     @Column(nullable = false)
     private String lastName;
     @Column(nullable = false)
-    private Integer numberOfCarsSold = 0;
+    private Integer numberOfCarsSold;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role = Role.SELLER;
@@ -36,18 +36,16 @@ public class Seller {
         SELLER,
         MANAGER
     }
-
-    @JsonIgnoreProperties({"seller"})
-    @OneToMany(mappedBy = "seller")
-    private List< Orders > sales = new ArrayList<>();
-
-
+    @JsonIgnoreProperties({"sellers","cars"})
     @ManyToOne
     @JoinColumn(name = "carshowroom_id",
             foreignKey =@ForeignKey(name = "car_shoow_room_seller_fk")
     )
     private CarShowroom carShowroom;
 
+    @JsonIgnoreProperties({"seller"})
+    @OneToMany(mappedBy = "seller")
+    private List< Orders > sales = new ArrayList<>();
     public Orders saleCar(Car car){
         numberOfCarsSold++;
         Orders order = Orders.builder()
@@ -57,6 +55,11 @@ public class Seller {
         sales.add(order);
 
         return order;
+    }
+
+    @PrePersist
+    public void init(){
+        numberOfCarsSold=0;
     }
 
 
