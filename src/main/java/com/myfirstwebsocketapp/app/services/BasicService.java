@@ -1,7 +1,7 @@
 package com.myfirstwebsocketapp.app.services;
 
-public interface BasicService<T, R> {
-     T save(R t);
+public interface BasicService<Obj, Dto> {
+     Obj save(Dto t);
      void deleteById(Long id);
 
 }

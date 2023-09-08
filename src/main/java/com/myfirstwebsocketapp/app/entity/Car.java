@@ -2,10 +2,7 @@ package com.myfirstwebsocketapp.app.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +13,17 @@ import java.util.List;
 )
 @Getter
 @Setter
+@Builder
 @EqualsAndHashCode(exclude = {"id","leftInStock","sales"})
 @ToString(exclude = {"sales"})
+@AllArgsConstructor
+@NoArgsConstructor
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private Integer leftInStock = 1;
+    private Integer leftInStock;
 
     @Column(nullable = false)
     private String mark;
@@ -55,4 +55,9 @@ public class Car {
             foreignKey = @ForeignKey(name = "car_shoow_romm_fk")
     )
     private CarShowroom carShowroom;
+
+    @PrePersist
+    public void init(){
+         leftInStock = 1;
+    }
 }

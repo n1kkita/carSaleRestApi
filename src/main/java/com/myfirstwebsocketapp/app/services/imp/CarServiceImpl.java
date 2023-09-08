@@ -1,12 +1,12 @@
 package com.myfirstwebsocketapp.app.services.imp;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myfirstwebsocketapp.app.dto.CarDto;
 import com.myfirstwebsocketapp.app.entity.Car;
 import com.myfirstwebsocketapp.app.exceptions.CarNotFoundException;
 import com.myfirstwebsocketapp.app.exceptions.MachinesOutOfStockException;
 import com.myfirstwebsocketapp.app.repositories.CarRepository;
 import com.myfirstwebsocketapp.app.services.CarService;
+import com.myfirstwebsocketapp.app.services.CarShowroomService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -21,12 +21,13 @@ import java.util.Optional;
 @Slf4j
 public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
-    private final ObjectMapper objectMapper;
+
+    private final CarShowroomService carShowroomService;
     @Override
     @Transactional
     @SneakyThrows
     public Car save(CarDto carDto) {
-        String carDtoJson = objectMapper.writeValueAsString(carDto);
+
 
         Optional< Car > carOptional = carRepository.findCarByCarDto(
                 carDto.mark(),
@@ -41,7 +42,7 @@ public class CarServiceImpl implements CarService {
             carOptional.get().setLeftInStock(carOptional.get().getLeftInStock()+1);
             return carOptional.get();
         } else {
-            Car saveCar = objectMapper.readValue(carDtoJson, Car.class);
+            Car saveCar = CarDto.replaceToCarByCarDto(carDto,carShowroomService.getById(carDto.carShowroomDto().id()));
             log.info("new car " + saveCar + " was saved");
             return carRepository.save(saveCar);
         }
@@ -49,11 +50,11 @@ public class CarServiceImpl implements CarService {
 
     @Override
     @Transactional
-    public Car updateById(Long id, Double newPrice) {
+    public CarDto updateById(Long id, Double newPrice) {
         Car car = carRepository.findById(id)
                 .orElseThrow(CarNotFoundException :: new);
         car.setPrice(newPrice);
-        return car;
+        return CarDto.replaceToDtoByCar(car);
     }
 
     @Override
@@ -72,13 +73,17 @@ public class CarServiceImpl implements CarService {
     @Override
     @Transactional(readOnly = true)
     public List< CarDto > getAll() {
-        return carRepository.findAllCar();
+        return carRepository.findAll()
+                .stream()
+                .map(CarDto :: replaceToDtoByCar)
+                .toList();
     }
 
     @Override
     @Transactional(readOnly = true)
     public CarDto getById(Long id) {
-        return carRepository.findCarById(id)
+        return carRepository.findById(id)
+                .map(CarDto :: replaceToDtoByCar)
                 .orElseThrow(CarNotFoundException :: new);
     }
 }
