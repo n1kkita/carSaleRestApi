@@ -28,7 +28,6 @@ public class CarServiceImpl implements CarService {
     @SneakyThrows
     public Car save(CarDto carDto) {
 
-
         Optional< Car > carOptional = carRepository.findCarByCarDto(
                 carDto.mark(),
                 carDto.model(),
