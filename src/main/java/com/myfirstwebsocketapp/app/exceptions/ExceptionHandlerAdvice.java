@@ -14,6 +14,12 @@ public class ExceptionHandlerAdvice {
                 .body(ex.getMessage());
     }
 
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<String> handleOrderNotFoundException(OrderNotFoundException ex){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(ex.getMessage());
+    }
+
     @ExceptionHandler(SellerNotFoundException.class)
     public ResponseEntity<String> handleSellerNotFoundException(SellerNotFoundException ex){
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
