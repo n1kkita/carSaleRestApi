@@ -4,6 +4,7 @@ import com.myfirstwebsocketapp.app.entity.Car;
 import com.myfirstwebsocketapp.app.entity.Orders;
 import com.myfirstwebsocketapp.app.entity.Seller;
 import com.myfirstwebsocketapp.app.exceptions.CarNotFoundException;
+import com.myfirstwebsocketapp.app.exceptions.OrderNotFoundException;
 import com.myfirstwebsocketapp.app.exceptions.SellerNotFoundException;
 import com.myfirstwebsocketapp.app.repositories.CarRepository;
 import com.myfirstwebsocketapp.app.repositories.OrdersRepository;
@@ -14,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -26,8 +29,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(readOnly = true)
+    public List< Orders > getAll() {
+        return ordersRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Orders getById(Long id) {
-        return ordersRepository.findById(id).orElseThrow();
+        return ordersRepository.findById(id)
+                .orElseThrow(OrderNotFoundException ::new);
     }
 
     @Override
