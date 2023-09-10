@@ -3,36 +3,33 @@ create table car (
     price float(53) not null,
     year integer not null,
     carshowroom_id bigint,
-    id bigserial not null,
+    id bigserial not null PRIMARY KEY,
     mark varchar(255) not null,
     model varchar(255) not null,
-    type varchar(255) not null check (type in ('PASSENGER_CAR','FREIGHTER_CAR','SPORT_CAR')),
-    primary key (id)
+    type varchar(255) not null check (type in ('PASSENGER_CAR','FREIGHTER_CAR','SPORT_CAR'))
+
 );
 
 create table car_showroom (
-    id bigserial not null,
-    name varchar(255) not null,
-    primary key (id)
+    id bigserial not null PRIMARY KEY,
+    name varchar(255) not null
 );
 
 create table orders (
     car_id bigint not null,
     date_of_sale timestamp(6) not null,
-    id bigserial not null,
-    salesman_id bigint not null,
-    primary key (id)
+    id bigserial not null PRIMARY KEY,
+    salesman_id bigint not null
 );
 
 create table seller (
     age integer not null,
     number_of_cars_sold integer not null,
     carshowroom_id bigint,
-    id bigserial not null,
+    id bigserial not null PRIMARY KEY,
     first_name varchar(255) not null,
     last_name varchar(255) not null,
-    role varchar(255) not null check (role in ('SELLER','MANAGER')),
-    primary key (id)
+    role varchar(255) not null check (role in ('SELLER','MANAGER'))
 );
 
 create index carshowroom_car_indx on car (carshowroom_id);
