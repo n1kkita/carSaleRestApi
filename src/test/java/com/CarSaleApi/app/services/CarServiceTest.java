@@ -10,6 +10,7 @@ import com.CarSaleApi.app.repositories.CarRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @SpringBootTest
@@ -44,7 +45,8 @@ class CarServiceTest {
     @Order(1)
     @DisplayName("Getting car by id throw CarNotFoundException")
     void getCarByIdThrowsCarNotFoundException(){
-        Assertions.assertThrows(CarNotFoundException.class,()->carService.getById(10000000000L));
+        Assertions.assertThrows(CarNotFoundException.class,
+                ()->carService.getById(10000000000L));
     }
     @Test
     @Order(2)
@@ -72,6 +74,15 @@ class CarServiceTest {
     @DisplayName("Delete car by id throw MachinesOutOfStockException")
     void deleteCarByIdMachinesOutOfStockException(){
         carService.deleteById(testCar.getId());
-        Assertions.assertThrows(MachinesOutOfStockException.class,()->carService.deleteById(testCar.getId()));
+        Assertions.assertThrows(MachinesOutOfStockException.class,
+                ()->carService.deleteById(testCar.getId()));
+    }
+    @Test
+    @Order(6)
+    @DisplayName("Update car by id")
+    @Transactional
+    void updateCarById(){
+        carService.updateById(testCar.getId(),13000.0);
+        Assertions.assertEquals(13000.0,testCar.getPrice());
     }
 }
