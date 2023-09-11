@@ -2,6 +2,7 @@ package com.CarSaleApi.app.dto;
 
 import com.CarSaleApi.app.entity.CarShowroom;
 import com.CarSaleApi.app.entity.Seller;
+import lombok.SneakyThrows;
 
 import java.util.List;
 
@@ -18,6 +19,10 @@ public record SellerDto
 
         )
 {
+
+
+
+    @SneakyThrows
         public static SellerDto replaceToDtoBySeller(Seller seller) {
                 return new SellerDto(
                         seller.getId(),
@@ -36,7 +41,6 @@ public record SellerDto
                                 ).toList()
                 );
         }
-
         public static Seller replaceToSellerBySellerDto(SellerDto sellerDto, CarShowroom carShowroom){
            return Seller
                    .builder()

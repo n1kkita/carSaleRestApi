@@ -61,6 +61,7 @@ public class SellerServiceImpl implements SellerService {
                     seller.setAge(age);
                     seller.setRole(Seller.Role.valueOf(role));
                     return seller;
+
                 }).orElseThrow(SellerNotFoundException::new);
 
          return SellerDto.replaceToDtoBySeller(updateSeller);
