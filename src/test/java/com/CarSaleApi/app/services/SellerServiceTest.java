@@ -67,6 +67,8 @@ class SellerServiceTest {
     void updateSeller(){
         sellerTest.setSales(new ArrayList<>());
         sellerService.updateById(sellerTest.getId(), String.valueOf(Seller.Role.MANAGER),99);
+        assertEquals(99,sellerTest.getAge());
+        assertEquals(Seller.Role.MANAGER,sellerTest.getRole());
     }
 
 
