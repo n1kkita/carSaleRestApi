@@ -1,13 +1,14 @@
 package com.CarSaleApi.app.services;
 
-import com.CarSaleApi.app.dto.CarShowroomDto;
 import com.CarSaleApi.app.dto.SellerDto;
 import com.CarSaleApi.app.entity.Seller;
 import com.CarSaleApi.app.exceptions.SellerNotFoundException;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
@@ -17,26 +18,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class SellerServiceTest {
     @Autowired
     private SellerService sellerService;
-
+    @Autowired
+    @Qualifier(value = "sellerTestBean")
     private Seller sellerTest;
-    @BeforeEach
-    void setup(){
-        SellerDto sellerDtoTest = new SellerDto(
-                null,
-                38,
-                "Vasily",
-                "Vanko",
-                0,
-                Seller.Role.SELLER,
-                new CarShowroomDto(1L, "KARTEK-AUTO"),
-                null
-        );
-        sellerTest = sellerService.save(sellerDtoTest);
-    }
-    @AfterEach
-    void clean(){
-        sellerService.deleteById(sellerTest.getId());
-    }
 
     @Test
     @Order(1)
@@ -63,10 +47,15 @@ class SellerServiceTest {
     @Test
     @Order(4)
     @DisplayName("Update seller by id")
-    @Transactional
     void updateSeller(){
         sellerTest.setSales(new ArrayList<>());
-        sellerService.updateById(sellerTest.getId(), String.valueOf(Seller.Role.MANAGER),99);
+
+        SellerDto updateSellerDto = sellerService.updateById(sellerTest.getId(),
+                String.valueOf(Seller.Role.MANAGER),99);
+
+
+        assertEquals(99,updateSellerDto.age());
+        assertEquals(Seller.Role.MANAGER,updateSellerDto.role());
     }
 
 
