@@ -24,7 +24,7 @@ public class ConfigTestBean {
     private SellerService sellerService;
     @Autowired
     private CarShowroomService carShowroomService;
-    @Bean
+    @Bean(value = "carShowroomTestBean")
     public CarShowroom getCarShowroomTestBean(){
         return carShowroomService.save(new CarShowroomDto(
                 null,
