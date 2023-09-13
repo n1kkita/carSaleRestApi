@@ -2,6 +2,6 @@
 create table revenue (
     id bigserial not null PRIMARY KEY,
     amount_of_revenue integer not null,
-    revenue_date date not null
+    revenue_date date not null unique
 );
 create index revenueDate_indx on revenue(revenue_date);

@@ -19,7 +19,7 @@ public class Revenue {
     private Long id;
     @Column(nullable = false)
     private Integer amountOfRevenue;
-    @Column(nullable = false, columnDefinition = "DATE")
+    @Column(nullable = false, columnDefinition = "DATE",unique = true)
     @Temporal(TemporalType.DATE)
     private Date revenueDate;
 }
