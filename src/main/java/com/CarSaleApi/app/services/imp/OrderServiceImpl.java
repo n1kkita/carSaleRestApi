@@ -5,12 +5,12 @@ import com.CarSaleApi.app.entity.Orders;
 import com.CarSaleApi.app.entity.Revenue;
 import com.CarSaleApi.app.entity.Seller;
 import com.CarSaleApi.app.exceptions.CarNotFoundException;
+import com.CarSaleApi.app.exceptions.OrderNotFoundException;
 import com.CarSaleApi.app.exceptions.SellerNotFoundException;
 import com.CarSaleApi.app.repositories.CarRepository;
+import com.CarSaleApi.app.repositories.OrdersRepository;
 import com.CarSaleApi.app.repositories.RevenueRepository;
 import com.CarSaleApi.app.repositories.SellerRepository;
-import com.CarSaleApi.app.exceptions.OrderNotFoundException;
-import com.CarSaleApi.app.repositories.OrdersRepository;
 import com.CarSaleApi.app.services.CarService;
 import com.CarSaleApi.app.services.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -30,7 +31,6 @@ public class OrderServiceImpl implements OrderService {
     private final CarRepository carRepository;
     private final OrdersRepository ordersRepository;
     private final RevenueRepository revenueRepository;
-
     @Override
     @Transactional(readOnly = true)
     public List< Orders > getAll() {
@@ -49,13 +49,21 @@ public class OrderServiceImpl implements OrderService {
     public Orders carSaleByIdAndSellerId(Long carId, Long sellerId) {
         Car saleCar = carRepository.findById(carId).orElseThrow(CarNotFoundException ::new);
         Seller seller = sellerRepository.findById(sellerId).orElseThrow(SellerNotFoundException ::new);
-        Revenue revenue = Revenue.builder()
+        Revenue newRevenue = Revenue.builder()
                 .amountOfRevenue(saleCar.getPrice().intValue())
                 .revenueDate(new Date())
                 .build();
 
         carService.deleteById(saleCar.getId());
-        revenueRepository.save(revenue);
+
+        Optional< Revenue > optionalRevenue = revenueRepository.findByRevenueDate(newRevenue.getRevenueDate());
+        if(optionalRevenue.isPresent()){
+            Revenue revenue = optionalRevenue.get();
+            revenue.setAmountOfRevenue(revenue.getAmountOfRevenue() + newRevenue.getAmountOfRevenue());
+        } else {
+            revenueRepository.save(newRevenue);
+        }
+
         log.info("car " + saleCar + " sold");
         return ordersRepository.save(seller.saleCar(saleCar));
     }
