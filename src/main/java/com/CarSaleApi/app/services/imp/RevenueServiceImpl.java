@@ -33,11 +33,16 @@ public class RevenueServiceImpl implements RevenueService {
 
         String startDate = new SimpleDateFormat("yyyy-MM-dd").format(date1);
         String endDate = new SimpleDateFormat("yyyy-MM-dd").format(date2);
-        return new RevenueDto(weeklyRevenueAmount,startDate + " ---- " + endDate);
+        return new RevenueDto(weeklyRevenueAmount,startDate + "---" + endDate);
     }
 
     @Override
-    public RevenueDto getRevenueByMonth(String nameMonth) {
-        return null;
+    public RevenueDto getRevenueByMonth(String month,String year) {
+        int monthRevenueAmount = revenueRepository.findByMonth(month,year)
+                .stream()
+                .mapToInt(Revenue::getAmountOfRevenue)
+                .sum();
+
+        return new RevenueDto(monthRevenueAmount, year + "-" + month);
     }
 }
