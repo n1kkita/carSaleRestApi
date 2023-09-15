@@ -18,14 +18,19 @@ public class RevenueController {
 
     private final RevenueService revenueService;
 
-    @GetMapping("/{date}")
+    @GetMapping("/day/{date}")
     public RevenueDto getRevenueByDay(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
         return revenueService.getRevenueByDay(date);
     }
 
-    @GetMapping("/{startDate}/{endDate}")
+    @GetMapping("/week/{startDate}/{endDate}")
     public RevenueDto getRevenueByDay(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
                                    @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
         return revenueService.getRevenueByWeek(startDate,endDate);
+    }
+
+    @GetMapping("/years/month/{year}/{month}")
+    public RevenueDto getRevenueByMonth(@PathVariable String month,@PathVariable String year){
+        return revenueService.getRevenueByMonth(month,year);
     }
 }

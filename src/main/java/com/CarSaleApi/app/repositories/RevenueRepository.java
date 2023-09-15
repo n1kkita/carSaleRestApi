@@ -14,4 +14,12 @@ public interface RevenueRepository extends JpaRepository< Revenue,Long > {
 
     @Query("select r from Revenue r where r.revenueDate between ?1 and ?2")
     List<Revenue> findByWeek(Date date1, Date date2);
+    @Query("select r from Revenue r " +
+            "where EXTRACT(month from r.revenueDate) = CAST(?1 as INTEGER) and" +
+            " EXTRACT(year from r.revenueDate) = CAST(?2 as INTEGER)")
+    List<Revenue> findByMonth(String month,String year);
+
+
+
+
 }
