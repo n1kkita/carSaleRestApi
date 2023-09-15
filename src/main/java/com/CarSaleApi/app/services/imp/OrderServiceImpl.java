@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -51,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
         Seller seller = sellerRepository.findById(sellerId).orElseThrow(SellerNotFoundException ::new);
         Revenue newRevenue = Revenue.builder()
                 .amountOfRevenue(saleCar.getPrice().intValue())
-                .revenueDate(new Date())
+                .revenueDate(LocalDate.now())
                 .build();
 
         carService.deleteById(saleCar.getId());

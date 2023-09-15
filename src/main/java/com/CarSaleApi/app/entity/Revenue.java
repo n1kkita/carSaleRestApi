@@ -3,7 +3,7 @@ package com.CarSaleApi.app.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(indexes =  @Index(name = "revenueDate_indx",columnList = "revenueDate"))
@@ -21,5 +21,5 @@ public class Revenue {
     private Integer amountOfRevenue;
     @Column(nullable = false, columnDefinition = "DATE",unique = true)
     @Temporal(TemporalType.DATE)
-    private Date revenueDate;
+    private LocalDate revenueDate;
 }

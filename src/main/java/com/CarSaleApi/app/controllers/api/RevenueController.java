@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/revenues")
@@ -19,13 +19,13 @@ public class RevenueController {
     private final RevenueService revenueService;
 
     @GetMapping("/day/{date}")
-    public RevenueDto getRevenueByDay(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+    public RevenueDto getRevenueByDay(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         return revenueService.getRevenueByDay(date);
     }
 
     @GetMapping("/week/{startDate}/{endDate}")
-    public RevenueDto getRevenueByDay(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-                                   @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
+    public RevenueDto getRevenueByDay(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+                                   @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
         return revenueService.getRevenueByWeek(startDate,endDate);
     }
 
