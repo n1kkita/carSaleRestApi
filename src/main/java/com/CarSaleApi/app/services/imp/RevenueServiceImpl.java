@@ -16,11 +16,12 @@ public class RevenueServiceImpl implements RevenueService {
     private final RevenueRepository revenueRepository;
     @Override
     public RevenueDto getRevenueByDay(LocalDate date) {
-        return revenueRepository.findByRevenueDate(date)
-                .map(revenue ->
-                        new RevenueDto(revenue.getAmountOfRevenue(),
-                        date.toString())
-                ).orElseThrow();
+        int dayRevenueAmount = revenueRepository.findByRevenueDate(date)
+                .stream()
+                .mapToInt(Revenue :: getAmountOfRevenue)
+                .sum();
+
+        return new RevenueDto(dayRevenueAmount,date.toString());
     }
 
     @Override
