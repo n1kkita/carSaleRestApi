@@ -3,6 +3,8 @@ package com.CarSaleApi.app.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.List;
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
+@PropertySource("classpath:seller.properties")
 public class Seller {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +29,9 @@ public class Seller {
     private String firstName;
     @Column(nullable = false)
     private String lastName;
+
+
+    @Value("${seller.defaultValues.numberOfCarSold}")
     private Integer numberOfCarsSold;
     private Double salesBonusesForCurrentMonth;
     @Column(nullable = false)
@@ -55,10 +61,5 @@ public class Seller {
         sales.add(order);
 
         return order;
-    }
-
-    @PrePersist
-    public void init(){
-        numberOfCarsSold = 0;
     }
 }
