@@ -77,6 +77,7 @@ public class ConfigTestBean {
                 "TestSeller",
                 0,
                 Seller.Role.SELLER,
+                0.0,
                 new CarShowroomDto(getCarShowroomTestBean().getId(),getCarShowroomTestBean().getName()),
                 null
         );
