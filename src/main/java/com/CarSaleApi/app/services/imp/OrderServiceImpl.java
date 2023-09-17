@@ -1,5 +1,6 @@
 package com.CarSaleApi.app.services.imp;
 
+import com.CarSaleApi.app.components.Calculator;
 import com.CarSaleApi.app.entity.Car;
 import com.CarSaleApi.app.entity.Orders;
 import com.CarSaleApi.app.entity.Revenue;
@@ -19,9 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -32,6 +31,7 @@ public class OrderServiceImpl implements OrderService {
     private final CarRepository carRepository;
     private final OrdersRepository ordersRepository;
     private final RevenueRepository revenueRepository;
+    private final Calculator<Seller> calculator;
     @Override
     @Transactional(readOnly = true)
     public List< Orders > getAll() {
@@ -50,22 +50,27 @@ public class OrderServiceImpl implements OrderService {
     public Orders carSaleByIdAndSellerId(Long carId, Long sellerId) {
         Car saleCar = carRepository.findById(carId).orElseThrow(CarNotFoundException ::new);
         Seller seller = sellerRepository.findById(sellerId).orElseThrow(SellerNotFoundException ::new);
-        Revenue newRevenue = Revenue.builder()
-                .amountOfRevenue(saleCar.getPrice().intValue())
-                .revenueDate(LocalDate.now())
-                .build();
+
 
         carService.deleteById(saleCar.getId());
+        //if we have revenue for the current date -> just added new revenue to the current one, else create new revenue to new date
+        revenueRepository.findByRevenueDate(LocalDate.now())
+                .ifPresentOrElse(
+                        revenue -> revenue.setAmountOfRevenue(revenue.getAmountOfRevenue() + saleCar.getPrice().intValue()),
 
-        Optional< Revenue > optionalRevenue = revenueRepository.findByRevenueDate(newRevenue.getRevenueDate());
-        if(optionalRevenue.isPresent()){
-            Revenue revenue = optionalRevenue.get();
-            revenue.setAmountOfRevenue(revenue.getAmountOfRevenue() + newRevenue.getAmountOfRevenue());
-        } else {
-            revenueRepository.save(newRevenue);
-        }
+                        () -> revenueRepository.save(
+                                 Revenue.builder()
+                                .amountOfRevenue(saleCar.getPrice().intValue())
+                                .revenueDate(LocalDate.now())
+                                .build()
+                        )
+                );
 
         log.info("car " + saleCar + " sold");
-        return ordersRepository.save(seller.saleCar(saleCar));
+        //saved the order in the db and calculating bonuses for the seller from sales
+        Orders order = ordersRepository.save(seller.saleCar(saleCar));
+        seller.setSalesBonusesForCurrentMonth(calculator.calculate(seller));
+
+        return order;
     }
 }
