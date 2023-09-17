@@ -1,6 +1,5 @@
 package com.CarSaleApi.app.services.imp;
 
-import com.CarSaleApi.app.components.Calculator;
 import com.CarSaleApi.app.entity.Car;
 import com.CarSaleApi.app.entity.Orders;
 import com.CarSaleApi.app.entity.Revenue;
@@ -31,7 +30,6 @@ public class OrderServiceImpl implements OrderService {
     private final CarRepository carRepository;
     private final OrdersRepository ordersRepository;
     private final RevenueRepository revenueRepository;
-    private final Calculator<Seller> calculator;
     @Override
     @Transactional(readOnly = true)
     public List< Orders > getAll() {
@@ -67,10 +65,6 @@ public class OrderServiceImpl implements OrderService {
                 );
 
         log.info("car " + saleCar + " sold");
-        //saved the order in the db and calculating bonuses for the seller from sales
-        Orders order = ordersRepository.save(seller.saleCar(saleCar));
-        seller.setSalesBonusesForCurrentMonth(calculator.calculate(seller));
-
-        return order;
+        return ordersRepository.save(seller.saleCar(saleCar));
     }
 }

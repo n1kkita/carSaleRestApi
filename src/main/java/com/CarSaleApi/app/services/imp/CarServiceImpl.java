@@ -5,8 +5,8 @@ import com.CarSaleApi.app.entity.Car;
 import com.CarSaleApi.app.exceptions.CarNotFoundException;
 import com.CarSaleApi.app.exceptions.MachinesOutOfStockException;
 import com.CarSaleApi.app.repositories.CarRepository;
-import com.CarSaleApi.app.services.CarShowroomService;
 import com.CarSaleApi.app.services.CarService;
+import com.CarSaleApi.app.services.CarShowroomService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +35,8 @@ public class CarServiceImpl implements CarService {
                 carDto.price(),
                 carDto.year()
         );
+
+
 
         if(carOptional.isPresent()){
             log.info("car " + carOptional.get() +" has already have so change quantity" );

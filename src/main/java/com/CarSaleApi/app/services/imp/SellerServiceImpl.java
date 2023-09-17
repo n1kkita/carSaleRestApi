@@ -1,5 +1,6 @@
 package com.CarSaleApi.app.services.imp;
 
+import com.CarSaleApi.app.components.Calculator;
 import com.CarSaleApi.app.dto.SellerDto;
 import com.CarSaleApi.app.entity.Seller;
 import com.CarSaleApi.app.exceptions.SellerNotFoundException;
@@ -19,6 +20,7 @@ import java.util.List;
 public class SellerServiceImpl implements SellerService {
     private final SellerRepository sellerRepository;
     private final CarShowroomService carShowroomService;
+    private final Calculator<Seller> calculator;
 
     @Override
     @Transactional
@@ -30,19 +32,23 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public List< SellerDto > getAll() {
         return sellerRepository.findAll()
                 .stream()
+                .peek(seller -> seller.setSalesBonusesForCurrentMonth(calculator.calculate(seller)))
                 .map(SellerDto :: replaceToDtoBySeller)
                 .toList();
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public SellerDto getById(Long id) {
         return sellerRepository.findById(id)
+                .stream()
+                .peek(seller -> seller.setSalesBonusesForCurrentMonth(calculator.calculate(seller)))
                 .map(SellerDto::replaceToDtoBySeller)
+                .findAny()
                 .orElseThrow(SellerNotFoundException :: new);
     }
 

@@ -27,7 +27,7 @@ public class Orders {
     @Column(nullable = false)
     private LocalDateTime dateOfSale;
 
-    @JsonIgnoreProperties({"sales"}) // Игнорируем поле sales при выгрузке Seller
+    @JsonIgnoreProperties(value = {"sales","numberOfCarsSold","salesBonusesForCurrentMonth"})
     @ManyToOne(optional = false)
     @JoinColumn(
             name = "salesman_id",
