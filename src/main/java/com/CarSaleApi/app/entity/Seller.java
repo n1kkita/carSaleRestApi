@@ -1,9 +1,11 @@
 package com.CarSaleApi.app.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.annotation.PostConstruct;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 @Entity
@@ -26,8 +28,8 @@ public class Seller {
     private String firstName;
     @Column(nullable = false)
     private String lastName;
-    @Column(nullable = false)
     private Integer numberOfCarsSold;
+    private Double salesBonusesForCurrentMonth;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role = Role.SELLER;
@@ -59,9 +61,6 @@ public class Seller {
 
     @PrePersist
     public void init(){
-        numberOfCarsSold=0;
+        numberOfCarsSold = 0;
     }
-
-
-
 }

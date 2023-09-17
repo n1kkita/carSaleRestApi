@@ -14,6 +14,7 @@ public record SellerDto
                 String lastName,
                 Integer numberOfCarsSold,
                 Seller.Role role,
+                Double salesBonusesForCurrentMonth,
                 CarShowroomDto carShowroomDto,
                 List<OrderDto> sales
 
@@ -31,6 +32,7 @@ public record SellerDto
                         seller.getLastName(),
                         seller.getNumberOfCarsSold(),
                         seller.getRole(),
+                        seller.getSalesBonusesForCurrentMonth(),
                         new CarShowroomDto(seller.getCarShowroom().getId(), seller.getCarShowroom().getName()),
                         seller.getSales()
                                 .stream()
