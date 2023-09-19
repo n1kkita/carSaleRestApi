@@ -24,7 +24,7 @@ public class CarShowroom {
     @OneToMany(mappedBy = "carShowroom")
     private List<Car> cars = new ArrayList<>();
 
-    @JsonIgnoreProperties({"carShowroom"})
+    @JsonIgnoreProperties(value = {"carShowroom","sales"})
     @OneToMany(mappedBy = "carShowroom")
     private List<Seller> sellers = new ArrayList<>();
 }
