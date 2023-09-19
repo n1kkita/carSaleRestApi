@@ -15,18 +15,17 @@ public class RevenueServiceImpl implements RevenueService {
 
     private final RevenueRepository revenueRepository;
     @Override
-    public RevenueDto getRevenueByDay(LocalDate date) {
-        Revenue revenue = revenueRepository.findByRevenueDate(date)
-                .orElse(new Revenue(null,0,date));
+    public RevenueDto getRevenueByDay(LocalDate date,Long idCarshowroom) {
+        Revenue revenue = revenueRepository.findByRevenueDateAndCarShowroomId(date,idCarshowroom)
+                .orElse(new Revenue(null,0,date,null));
 
         int dayRevenueAmount = revenue.getAmountOfRevenue();
 
-        return new RevenueDto(dayRevenueAmount,date.toString());
+        return new RevenueDto(dayRevenueAmount, date.toString());
     }
-
     @Override
-    public RevenueDto getRevenueByWeek(LocalDate date1, LocalDate date2) {
-         int weeklyRevenueAmount = revenueRepository.findByWeek(date1,date2)
+    public RevenueDto getRevenueByWeek(LocalDate date1, LocalDate date2, Long idCarshowroom) {
+         int weeklyRevenueAmount = revenueRepository.findByWeek(date1,date2,idCarshowroom)
                 .stream()
                 .mapToInt(Revenue::getAmountOfRevenue)
                 .sum();
@@ -37,8 +36,8 @@ public class RevenueServiceImpl implements RevenueService {
     }
 
     @Override
-    public RevenueDto getRevenueByMonth(String month,String year) {
-        int monthRevenueAmount = revenueRepository.findByMonth(month,year)
+    public RevenueDto getRevenueByMonth(String month,String year,Long idCarshowroom) {
+        int monthRevenueAmount = revenueRepository.findByMonth(month,year,idCarshowroom)
                 .stream()
                 .mapToInt(Revenue::getAmountOfRevenue)
                 .sum();

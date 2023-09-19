@@ -1,9 +1,6 @@
 package com.CarSaleApi.app.services.imp;
 
-import com.CarSaleApi.app.entity.Car;
-import com.CarSaleApi.app.entity.Orders;
-import com.CarSaleApi.app.entity.Revenue;
-import com.CarSaleApi.app.entity.Seller;
+import com.CarSaleApi.app.entity.*;
 import com.CarSaleApi.app.exceptions.CarNotFoundException;
 import com.CarSaleApi.app.exceptions.OrderNotFoundException;
 import com.CarSaleApi.app.exceptions.SellerDoesNotHaveAccessForCarshowroom;
@@ -49,21 +46,23 @@ public class OrderServiceImpl implements OrderService {
     public Orders carSaleByIdAndSellerId(Long carId, Long sellerId) {
         Car saleCar = carRepository.findById(carId).orElseThrow(CarNotFoundException ::new);
         Seller seller = sellerRepository.findById(sellerId).orElseThrow(SellerNotFoundException ::new);
+        CarShowroom carShowroom = seller.getCarShowroom();
 
-        if(!saleCar.getCarShowroom().equals(seller.getCarShowroom()))
+        if(!saleCar.getCarShowroom().equals(carShowroom))
             throw new SellerDoesNotHaveAccessForCarshowroom();
 
         carService.deleteById(saleCar.getId());
         //if we have revenue for the current date -> just added new revenue to the current one, else create new revenue to new date
-        revenueRepository.findByRevenueDate(LocalDate.now())
+        revenueRepository.findByRevenueDateAndCarShowroomId(LocalDate.now(),carShowroom.getId())
                 .ifPresentOrElse(
                         revenue -> revenue.setAmountOfRevenue(revenue.getAmountOfRevenue() + saleCar.getPrice().intValue()),
 
                         () -> revenueRepository.save(
-                                 Revenue.builder()
-                                .amountOfRevenue(saleCar.getPrice().intValue())
-                                .revenueDate(LocalDate.now())
-                                .build()
+                                Revenue.builder()
+                                        .carShowroom(carShowroom)
+                                        .amountOfRevenue(saleCar.getPrice().intValue())
+                                        .revenueDate(LocalDate.now())
+                                        .build()
                         )
                 );
 

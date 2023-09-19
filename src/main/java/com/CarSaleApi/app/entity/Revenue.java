@@ -22,4 +22,12 @@ public class Revenue {
     @Column(nullable = false, columnDefinition = "DATE",unique = true)
     @Temporal(TemporalType.DATE)
     private LocalDate revenueDate;
+    @ManyToOne
+    @JoinColumn(
+            name = "carshowroom_id",
+            foreignKey = @ForeignKey(name = "car_show_room_revenue_fk"),
+            nullable = false
+    )
+    private CarShowroom carShowroom;
+
 }

@@ -12,25 +12,28 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDate;
 
 @RestController
-@RequestMapping("/revenues")
+@RequestMapping("/api/car-showrooms/{idCarshowroom}/revenues")
 @RequiredArgsConstructor
 public class RevenueController {
 
     private final RevenueService revenueService;
 
     @GetMapping("/day/{date}")
-    public RevenueDto getRevenueByDay(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        return revenueService.getRevenueByDay(date);
+    public RevenueDto getRevenueByDay(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
+                                      @PathVariable Long idCarshowroom) {
+        return revenueService.getRevenueByDay(date,idCarshowroom);
     }
 
     @GetMapping("/week/{startDate}/{endDate}")
-    public RevenueDto getRevenueByDay(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-                                   @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
-        return revenueService.getRevenueByWeek(startDate,endDate);
+    public RevenueDto getRevenueByWeek(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+                                      @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
+                                      @PathVariable Long idCarshowroom) {
+        return revenueService.getRevenueByWeek(startDate,endDate,idCarshowroom);
     }
 
     @GetMapping("/years/month/{year}/{month}")
-    public RevenueDto getRevenueByMonth(@PathVariable String month,@PathVariable String year){
-        return revenueService.getRevenueByMonth(month,year);
+    public RevenueDto getRevenueByMonth(@PathVariable String month, @PathVariable String year,
+                                        @PathVariable Long idCarshowroom){
+        return revenueService.getRevenueByMonth(month,year,idCarshowroom);
     }
 }

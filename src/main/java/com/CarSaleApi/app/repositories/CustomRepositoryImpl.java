@@ -26,6 +26,11 @@ public class CustomRepositoryImpl implements CustomRepository {
                 .setParameter(1,carShowroom.getId())
                 .getSingleResult();
 
+        carShowroom = entityManager.createQuery(
+                        "select chr from CarShowroom  chr left join fetch chr.revenues where chr.id=?1", CarShowroom.class)
+                .setParameter(1,carShowroom.getId())
+                .getSingleResult();
+
         return Optional.of(carShowroom);
     }
 }

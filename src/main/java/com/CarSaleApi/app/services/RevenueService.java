@@ -3,12 +3,11 @@ package com.CarSaleApi.app.services;
 import com.CarSaleApi.app.dto.RevenueDto;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public interface RevenueService {
-    RevenueDto getRevenueByDay(LocalDate date);
-    RevenueDto getRevenueByWeek(LocalDate date1,LocalDate date2);
+    RevenueDto getRevenueByDay(LocalDate date,Long idCarshowroom);
+    RevenueDto getRevenueByWeek(LocalDate date1,LocalDate date2,Long idCarshowroom);
 
-    RevenueDto getRevenueByMonth(String month,String year);
+    RevenueDto getRevenueByMonth(String month,String year,Long idCarshowroom);
 
 }

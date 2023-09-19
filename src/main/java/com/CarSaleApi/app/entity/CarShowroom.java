@@ -1,5 +1,6 @@
 package com.CarSaleApi.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,4 +28,8 @@ public class CarShowroom {
     @JsonIgnoreProperties(value = {"carShowroom","sales"})
     @OneToMany(mappedBy = "carShowroom")
     private List<Seller> sellers = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "carShowroom",cascade = CascadeType.ALL)
+    private List<Revenue> revenues = new ArrayList<>();
 }
