@@ -3,7 +3,6 @@ package com.CarSaleApi.app.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 
 import java.util.ArrayList;
@@ -29,9 +28,7 @@ public class Seller {
     private String firstName;
     @Column(nullable = false)
     private String lastName;
-
-
-    @Value("${seller.defaultValues.numberOfCarSold}")
+    @Column(nullable = false)
     private Integer numberOfCarsSold;
     private Double salesBonusesForCurrentMonth;
     @Column(nullable = false)
@@ -52,6 +49,11 @@ public class Seller {
     @JsonIgnoreProperties({"seller"})
     @OneToMany(mappedBy = "seller")
     private List< Orders > sales = new ArrayList<>();
+
+    @PrePersist
+    public void init(){
+        numberOfCarsSold=0;
+    }
     public Orders saleCar(Car car){
         numberOfCarsSold++;
         Orders order = Orders.builder()

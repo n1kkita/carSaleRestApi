@@ -24,7 +24,7 @@ create table orders (
 
 create table seller (
     age integer not null,
-    number_of_cars_sold integer,
+    number_of_cars_sold integer not null ,
     carshowroom_id bigint,
     id bigserial not null PRIMARY KEY,
     first_name varchar(255) not null,

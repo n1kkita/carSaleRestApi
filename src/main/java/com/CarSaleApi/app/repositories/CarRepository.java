@@ -14,12 +14,14 @@ public interface CarRepository extends JpaRepository< Car,Long> {
                 "and c.model = ?2 " +
                 "and c.type = ?3 " +
                 "and c.price = ?4 " +
-                "and c.year = ?5")
+                "and c.year = ?5 " +
+                "and c.carShowroom.id=?6")
         Optional<Car> findCarByCarDto( String mark,
                                        String model,
                                        Car.Type type,
                                        Double price,
-                                       Integer year
+                                       Integer year,
+                                       Long idCarshowroom
         );
 
 

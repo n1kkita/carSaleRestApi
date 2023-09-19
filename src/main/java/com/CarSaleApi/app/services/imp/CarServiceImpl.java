@@ -33,7 +33,8 @@ public class CarServiceImpl implements CarService {
                 carDto.model(),
                 carDto.type(),
                 carDto.price(),
-                carDto.year()
+                carDto.year(),
+                carDto.carShowroomDto().id()
         );
 
 

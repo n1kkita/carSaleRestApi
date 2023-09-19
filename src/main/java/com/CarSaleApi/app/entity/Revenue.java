@@ -19,7 +19,7 @@ public class Revenue {
     private Long id;
     @Column(nullable = false)
     private Integer amountOfRevenue;
-    @Column(nullable = false, columnDefinition = "DATE",unique = true)
+    @Column(nullable = false, columnDefinition = "DATE")
     @Temporal(TemporalType.DATE)
     private LocalDate revenueDate;
     @ManyToOne
