@@ -6,6 +6,7 @@ import com.CarSaleApi.app.entity.Revenue;
 import com.CarSaleApi.app.entity.Seller;
 import com.CarSaleApi.app.exceptions.CarNotFoundException;
 import com.CarSaleApi.app.exceptions.OrderNotFoundException;
+import com.CarSaleApi.app.exceptions.SellerDoesNotHaveAccessForCarshowroom;
 import com.CarSaleApi.app.exceptions.SellerNotFoundException;
 import com.CarSaleApi.app.repositories.CarRepository;
 import com.CarSaleApi.app.repositories.OrdersRepository;
@@ -49,6 +50,8 @@ public class OrderServiceImpl implements OrderService {
         Car saleCar = carRepository.findById(carId).orElseThrow(CarNotFoundException ::new);
         Seller seller = sellerRepository.findById(sellerId).orElseThrow(SellerNotFoundException ::new);
 
+        if(!saleCar.getCarShowroom().equals(seller.getCarShowroom()))
+            throw new SellerDoesNotHaveAccessForCarshowroom();
 
         carService.deleteById(saleCar.getId());
         //if we have revenue for the current date -> just added new revenue to the current one, else create new revenue to new date

@@ -30,4 +30,9 @@ public class ExceptionHandlerAdvice {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(ex.getMessage());
     }
+    @ExceptionHandler(SellerDoesNotHaveAccessForCarshowroom.class)
+    public ResponseEntity<String> handleMachinesOutOfStockException(SellerDoesNotHaveAccessForCarshowroom ex){
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(ex.getMessage());
+    }
 }
