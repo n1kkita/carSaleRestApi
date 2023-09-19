@@ -42,16 +42,16 @@ public class ConfigTestBean {
     @Bean
     public List< Revenue > getTestRevenuesBeans(){
         return revenueRepository.saveAll(List.of(
-                new Revenue(null,15000, LocalDate.of(2023,11,25)),
-                new Revenue(null,10000,LocalDate.of(2023,11,26)),
-                new Revenue(null,10000,LocalDate.of(2023,11,27)),
-                new Revenue(null,10000,LocalDate.of(2023,11,28)),
-                new Revenue(null,10000,LocalDate.of(2023,11,29)),
-                new Revenue(null,23000,LocalDate.of(2023,11,30)),
-                new Revenue(null,10000,LocalDate.of(2023,12,31)),
-                new Revenue(null,70000,LocalDate.of(2024,1,1)),
-                new Revenue(null,100000,LocalDate.of(2024,1,2)),
-                new Revenue(null,12000,LocalDate.of(2024,1,3))
+                new Revenue(null,15000, LocalDate.of(2023,11,25),getCarShowroomTestBean()),
+                new Revenue(null,10000,LocalDate.of(2023,11,26),getCarShowroomTestBean()),
+                new Revenue(null,10000,LocalDate.of(2023,11,27),getCarShowroomTestBean()),
+                new Revenue(null,10000,LocalDate.of(2023,11,28),getCarShowroomTestBean()),
+                new Revenue(null,10000,LocalDate.of(2023,11,29),getCarShowroomTestBean()),
+                new Revenue(null,23000,LocalDate.of(2023,11,30),getCarShowroomTestBean()),
+                new Revenue(null,10000,LocalDate.of(2023,12,31),getCarShowroomTestBean()),
+                new Revenue(null,70000,LocalDate.of(2024,1,1),getCarShowroomTestBean()),
+                new Revenue(null,100000,LocalDate.of(2024,1,2),getCarShowroomTestBean()),
+                new Revenue(null,12000,LocalDate.of(2024,1,3),getCarShowroomTestBean())
         ));
     }
 
