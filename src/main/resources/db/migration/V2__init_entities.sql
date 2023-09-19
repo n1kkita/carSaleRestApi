@@ -1,4 +1,4 @@
-insert into car_showroom (id,name) values (1,'KARTEK-AUTO');
+insert into car_showroom (name) values ('KARTEK-AUTO');
 
 insert into seller (age, number_of_cars_sold, carshowroom_id, first_name, last_name, role)
 values (36,0,1,'Oleksandr','Zubareff','SELLER');
