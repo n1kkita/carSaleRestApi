@@ -1,5 +1,7 @@
 # API Documentation
 
+This document provides detailed information on the available API endpoints and their usage.
+
 ## Sellers API
 
 ### Get All Sellers
