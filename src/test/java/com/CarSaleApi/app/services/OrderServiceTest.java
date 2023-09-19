@@ -1,5 +1,6 @@
 package com.CarSaleApi.app.services;
 
+import com.CarSaleApi.app.dto.SellerDto;
 import com.CarSaleApi.app.entity.Car;
 import com.CarSaleApi.app.entity.Orders;
 import com.CarSaleApi.app.entity.Seller;
@@ -23,6 +24,8 @@ class OrderServiceTest {
     @Autowired
     private CarService carService;
     @Autowired
+    private SellerService sellerService;
+    @Autowired
     @Qualifier("carTestBean")
     private Car carTest;
     @Autowired
@@ -39,8 +42,11 @@ class OrderServiceTest {
 
         Orders testOrder = orderService.carSaleByIdAndSellerId(carTest.getId(),sellerTest.getId());
         int leftInStockAfterSaleCar = carService.getById(carTest.getId()).leftInStock();
+        SellerDto seller = sellerService.getById(sellerTest.getId());
 
         assertNotNull(testOrder);
         assertEquals(leftInStockBeforeSaleCar-1,leftInStockAfterSaleCar);
+        assertEquals(60, seller.salesBonusesForCurrentMonth());
+        assertEquals(1,seller.numberOfCarsSold());
     }
 }
