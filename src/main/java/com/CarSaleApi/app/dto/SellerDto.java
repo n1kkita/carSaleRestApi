@@ -49,6 +49,8 @@ public record SellerDto
                    .carShowroom(carShowroom)
                    .firstName(sellerDto.firstName())
                    .lastName(sellerDto.lastName())
+                   .numberOfCarsSold(sellerDto.numberOfCarsSold())
+                   .salesBonusesForCurrentMonth(sellerDto.salesBonusesForCurrentMonth())
                    .age(sellerDto.age())
                    .role(sellerDto.role())
                    .build();
