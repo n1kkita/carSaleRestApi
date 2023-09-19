@@ -1,114 +1,124 @@
------------------------------------------------------------------------------------------------------------------------
-API for Seller:
+# API Documentation
 
-GET:   /api/sellers  <- get all sellers;
+## Sellers API
 
-GET:   /api/sellers/{id} <- get seller by id;
+### Get All Sellers
 
-POST:  /api/sellers <- add a new seller;
+- **GET:** `/api/sellers`
+- **Description:** `Get a list of all sellers.`
 
-This request expects JSON input of this format
+### Get Seller by ID
 
-"carShowroomDto": {
-          
-  "age": 30,
- 
-  "firstName": "John",
+- **GET:** `/api/sellers/{id}`
+- **Description:** `Get a seller by their unique ID.`
 
-  "lastName": "Doe",
+### Add a New Seller
 
-  "role": "MANAGER",
+- **POST:** `/api/sellers`
+- **Description:** `Create a new seller. The request expects JSON input in the following format:`
 
-  "carShowroomDto": {
-   
-  "id": "1",<-necessarily
-
-  "name": "", <-optional
-
-}
-
-}
-
-roles can be: "MANAGER","SELLER"
-
-
-PATCH: /api/sellers/{{id}}?role=?&age=? <- update seller by id;
-
-DELETE: /api/sellers/{{id}} <- delete seller by id;
-
------------------------------------------------------------------------------------------------------------------------
-API for Carshowroom:
-
-POST: /api/car-showrooms <- create a new carshowroom
-
-This request expects JSON input of this format
-
+```json
 {
+  "carShowroomDto": {
+    "age": 30,
+    "firstName": "John",
+    "lastName": "Doe",
+    "role": "MANAGER",
+    "carShowroomDto": {
+      "id": "1"
+    }
+  }
+}
+```
 
+**Roles:** `Available roles are "MANAGER" and "SELLER".`
+
+### Update Seller by ID
+
+- **PATCH:** `/api/sellers/{id}?role=?&age=?`
+- **Description:** `Update a seller's role and age by their unique ID.`
+
+### Delete Seller by ID
+
+- **DELETE:** `/api/sellers/{id}`
+- **Description:** `Delete a seller by their unique ID.`
+
+## Car Showroom API
+
+### Create a New Car Showroom
+
+- **POST:** `/api/car-showrooms`
+- **Description:** `Create a new car showroom. The request expects JSON input in the following format:`
+
+```json
+{
   "name": "BMW car dealership"
-
 }
+```
+### Get Car Showroom by id
 
-GET:  /api/car-showrooms/{id} <-get carshowroom by id
-
------------------------------------------------------------------------------------------------------------------------
-API for Orders:
-
-GET:  /api/orders <- get all orders
-
-POST: /api/orders/saleCar/{carId}/{sellerId} <- create new order
-
-GET:  /api/orders/{id} <- get order by id
-
------------------------------------------------------------------------------------------------------------------------
-API for Revenue:
-
-GET:  /api/car-showrooms/{idCarshowroom}/revenues/day/{date} <- get revenue by date
-
-indicate the date in the format: yyyy-MM-dd
-
-For example: 2023-09-19
-
-GET:  /api/car-showrooms/{idCarshowroom}/revenues/week/{date1}/{date2}
-
-GET /api/car-showrooms/{idCarshowroom}/revenues/years/month/{year}/{month}
-
-indicate the month in the following formats: 1,2,3,4,5,6,7,8,9,10,11,12
-
------------------------------------------------------------------------------------------------------------------------
-
-API for Cars:
-
-GET:  /api/cars <- get all cars
-
-GET:  /api/cars/1 <- get car by id
-
-POST: /api/cars <- create new car
-
-This request expects JSON input of this format
-
-{
-
-  "mark": "BMW",
-
-  "model": "M8",
-
-  "year": "2023",
-
-  "price": "1500000",
-
-  "type": "SPORT_CAR",  type can be: "PASSENGER_CAR","FREIGHTER_CAR","SPORT_CAR"
+- **GET:** `/api/car-showrooms/{id}`
   
+## Orders API
+
+### Get all orders
+
+- **GET:** `/api/orders`
+- **Description:** `Get a list of all orders.`
+  
+### Sale car and create new Order
+
+- **POST:** `/api/orders/saleCar/{carId}/{sellerId}`
+- **Description:** `Create a new order for the sale of a car. Replace {carId} and {sellerId} with the respective IDs.`
+  
+### Get order by id
+- **GET:** `/api/orders/{id}`
+- **Description:** `Get a car by their unique ID.`
+
+## Revenue API
+
+### Get revenue by date
+
+- **GET:** `/api/car-showrooms/{idCarshowroom}/revenues/day/{date}`
+- **Description:** `Indicate the date in the format: yyyy-MM-dd. For example: 2023-09-19.`
+  
+### Get revenue by week
+
+- **GET:** `/api/car-showrooms/{idCarshowroom}/revenues/week/{date1}/{date2}`
+- **Description:** `Receiving income from date1 to date2.`
+  
+### Get revenue by Month
+- **GET:** `/api/car-showrooms/{idCarshowroom}/revenues/years/month/{year}/{month}`
+- **Description:** `Indicate the month in the following formats: 1,2,3,4,5,6,7,8,9,10,11,12.`
+
+## API for Cars
+
+### Get All Cars
+
+- **GET:** `/api/cars`
+- **Description:** `Get a list of all cars.`
+
+### Get Car by ID
+
+- **GET:** `/api/cars/{id}`
+- **Description:** `Get a car by its unique ID.`
+
+### Create New Car
+
+- **POST:** `/api/cars`
+- **Description:** `Create a new car. The request expects JSON input in the following format:`
+
+```json
+{
+  "mark": "BMW",
+  "model": "M8",
+  "year": "2023",
+  "price": "1500000",
+  "type": "SPORT_CAR",
   "carShowroomDto": {
-
-  "id": "2"
-
+    "id": "2"
+  }
 }
+```
+**Types:** `Available types are "PASSENGER_CAR","FREIGHTER_CAR","SPORT_CAR".`
 
-}
-
-PATCH:  /api/cars/{id}?newPrice=? <- update cost by car id
-
-DELETE: /api/cars/{id} <- delete car by id
-
------------------------------------------------------------------------------------------------------------------------
