@@ -21,7 +21,6 @@ This document provides detailed information on the available API endpoints and t
 
 ```json
 {
-  "carShowroomDto": {
     "age": 30,
     "firstName": "John",
     "lastName": "Doe",
@@ -29,7 +28,6 @@ This document provides detailed information on the available API endpoints and t
     "carShowroomDto": {
       "id": "1"
     }
-  }
 }
 ```
 
