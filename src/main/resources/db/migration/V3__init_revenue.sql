@@ -7,4 +7,4 @@ create table revenue (
 create index revenueDate_indx on revenue(revenue_date);
 
 alter table if exists revenue
-    add constraint car_show_room_revenue_fk foreign key (carshowroom_id) references car_sale.public.car_showroom;
+    add constraint car_show_room_revenue_fk foreign key (carshowroom_id) references car_showroom;

@@ -1,1 +1,1 @@
-alter table car_sale.public.seller add column sales_bonuses_for_current_month double precision;
+alter table seller add column sales_bonuses_for_current_month double precision;
