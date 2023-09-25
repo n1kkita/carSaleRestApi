@@ -3,7 +3,7 @@ version: "3.8"
 services:
   app:
     build: .
-    container_name: task-manager
+    container_name: car_sale_api
     ports:
       - target: 8080
         published: 8080
