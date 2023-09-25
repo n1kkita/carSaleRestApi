@@ -2,6 +2,14 @@
 
 This document provides detailed information on the available API endpoints and their usage.
 
+# Startup instructions
+
+### You can use Docker Compose to run it.
+Clone the repository on your PC, open the console and go to the root of the project, run the command 'docker compose up'. Wait until Docker Compose downloads the image and launches the containers. Then you can run queries using Postman or other similar tools.
+
+### The application can also be launched through the development environment.
+To do this you need to point maven-profile to 'dev' and run the application
+
 ## Sellers API
 
 ### Get All Sellers
