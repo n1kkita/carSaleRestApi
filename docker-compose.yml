@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   app:
-    build: .
+    image: n1kkita/car-sale-api
     container_name: car_sale_api
     ports:
       - target: 8080
